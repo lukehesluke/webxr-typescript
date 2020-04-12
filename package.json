@@ -1,0 +1,26 @@
+{
+  "name": "webxr-typescript",
+  "version": "0.0.0",
+  "description": "TypeScript definitions for the WebXR Device API",
+  "main": "index.d.ts",
+  "scripts": {
+    "test": "npx tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukehesluke/webxr-typescript.git"
+  },
+  "keywords": [
+    "WebXR",
+    "TypeScript"
+  ],
+  "author": "Luke Winship <luke.winship@gmail.com> (https://github.com/lukehesluke)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lukehesluke/webxr-typescript/issues"
+  },
+  "homepage": "https://github.com/lukehesluke/webxr-typescript#readme",
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
+}
