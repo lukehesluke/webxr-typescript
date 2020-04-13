@@ -54,13 +54,13 @@ declare global {
     readonly matrix: Float32Array;
     readonly inverse: XRRigidTransform;
   }
-}
 
-export interface XRViewport {
-  readonly x: number;
-  readonly y: number;
-  readonly width: number;
-  readonly height: number;
+  export interface XRViewport {
+    readonly x: number;
+    readonly y: number;
+    readonly width: number;
+    readonly height: number;
+  }
 }
 
 // ## Events
@@ -118,62 +118,64 @@ export interface XRPermissionDescriptor extends PermissionDescriptor {
   optionalFeatures?: XRReferenceSpaceType[]; // sequence<any> (TODO?)
 }
 
-export interface XRPermissionStatus extends PermissionStatus {
-  granted: any[]; // FrozenArray (TODO?) ; (TODO) Also is this really `any`?
-}
+declare global {
+  export interface XRPermissionStatus extends PermissionStatus {
+    granted: any[]; // FrozenArray (TODO?) ; (TODO) Also is this really `any`?
+  }
 
-// ## Input sources
+  // ## Input sources
 
-export interface XRInputSource {
-  readonly handedness: XRHandedness;
-  readonly targetRayMode: XRTargetRayMode;
-  readonly targetRaySpace: XRSpace;
-  readonly gripSpace: XRSpace | null;
-  readonly profiles: DOMString[]; // FrozenArray in the doc (TODO?)
-}
+  export interface XRInputSource {
+    readonly handedness: XRHandedness;
+    readonly targetRayMode: XRTargetRayMode;
+    readonly targetRaySpace: XRSpace;
+    readonly gripSpace: XRSpace | null;
+    readonly profiles: DOMString[]; // FrozenArray in the doc (TODO?)
+  }
 
-// This is actually a novel data structure which emulates a JS array (e.g. getter + `.length`)
-// but it is not an array (TODO)
-export type XRInputSourceArray = XRInputSource[];
+  // This is actually a novel data structure which emulates a JS array (e.g. getter + `.length`)
+  // but it is not an array (TODO)
+  export type XRInputSourceArray = XRInputSource[];
 
-// ## View
+  // ## View
 
-export interface XRView {
-  readonly eye: XREye;
-  readonly projectionMatrix: Float32Array;
-  readonly transform: XRRigidTransform;
-}
+  export interface XRView {
+    readonly eye: XREye;
+    readonly projectionMatrix: Float32Array;
+    readonly transform: XRRigidTransform;
+  }
 
-// ## Spaces
+  // ## Spaces
 
-export interface XRSpace extends EventTarget { }
+  export interface XRSpace extends EventTarget { }
 
-export interface XRReferenceSpace extends XRSpace {
-  getOffsetReferenceSpace(originOffset: XRRigidTransform): XRReferenceSpace;
-  onreset: EventHandler;
-}
+  export interface XRReferenceSpace extends XRSpace {
+    getOffsetReferenceSpace(originOffset: XRRigidTransform): XRReferenceSpace;
+    onreset: EventHandler;
+  }
 
-export interface XRBoundedReferenceSpace extends XRReferenceSpace {
-  readonly boundsGeometry: DOMPointReadOnly[]; // FrozenArray (TODO?)
-}
+  export interface XRBoundedReferenceSpace extends XRReferenceSpace {
+    readonly boundsGeometry: DOMPointReadOnly[]; // FrozenArray (TODO?)
+  }
 
-// ## Poses
+  // ## Poses
 
-export interface XRPose {
-  readonly transform: XRRigidTransform;
-  readonly emulatedPosition: boolean;
-}
+  export interface XRPose {
+    readonly transform: XRRigidTransform;
+    readonly emulatedPosition: boolean;
+  }
 
-export interface XRViewerPose extends XRPose {
-  readonly views: XRView[]; // FrozenArray in the docs (TODO?)
-}
+  export interface XRViewerPose extends XRPose {
+    readonly views: XRView[]; // FrozenArray in the docs (TODO?)
+  }
 
-// ## Frames
+  // ## Frames
 
-export interface XRFrame {
-  readonly session: XRSession;
-  getViewerPose(referenceSpace: XRReferenceSpace): XRViewerPose | null;
-  getPose(space: XRSpace, baseSpace: XRSpace): XRPose | null;
+  export interface XRFrame {
+    readonly session: XRSession;
+    getViewerPose(referenceSpace: XRReferenceSpace): XRViewerPose | null;
+    getPose(space: XRSpace, baseSpace: XRSpace): XRPose | null;
+  }
 }
 
 export type XRFrameRequestCallback = (time: DOMHighResTimeStamp, frame: XRFrame) => void;
@@ -212,52 +214,51 @@ export interface XRRenderStateInit {
   baseLayer?: XRWebGLLayer | null;
 }
 
-export interface XRRenderState {
-  readonly depthNear: number;
-  readonly depthFar: number;
-  readonly inlineVerticalFieldOfView?: number;
-  readonly baseLayer?: XRWebGLLayer;
-}
-
-export interface XRSession extends EventTarget {
-  readonly visibilityState: XRVisibilityState;
-  readonly renderState: XRRenderState;
-  readonly inputSources: XRInputSourceArray;
-
-  // Methods
-  updateRenderState(state?: XRRenderStateInit): void;
-  requestReferenceSpace(type: XRReferenceSpaceType): Promise<XRReferenceSpace>;
-
-  requestAnimationFrame(callback: XRFrameRequestCallback): number;
-  cancelAnimationFrame(handle: number): void;
-
-  end(): Promise<void>;
-
-  // Events
-  onend: EventHandler;
-  oninputsourceschange: EventHandler;
-  onselect: EventHandler;
-  onselectstart: EventHandler;
-  onselectend: EventHandler;
-  onsqueeze: EventHandler;
-  onsqueezestart: EventHandler;
-  onsqueezeend: EventHandler;
-  onvisibilitychange: EventHandler;
-}
-
-// ## System
-
-
-export interface XRSystem extends EventTarget {
-  isSessionSupported(mode: XRSessionMode): Promise<boolean>;
-  requestSession(mode: XRSessionMode, options?: XRSessionInit): Promise<XRSession>;
-  ondevicechange: EventHandler;
-  addEventListener(type: 'devicechange', listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-}
-
-// ## Updates to existing objects
-
 declare global {
+
+  export interface XRRenderState {
+    readonly depthNear: number;
+    readonly depthFar: number;
+    readonly inlineVerticalFieldOfView?: number;
+    readonly baseLayer?: XRWebGLLayer;
+  }
+
+  export interface XRSession extends EventTarget {
+    readonly visibilityState: XRVisibilityState;
+    readonly renderState: XRRenderState;
+    readonly inputSources: XRInputSourceArray;
+
+    // Methods
+    updateRenderState(state?: XRRenderStateInit): void;
+    requestReferenceSpace(type: XRReferenceSpaceType): Promise<XRReferenceSpace>;
+
+    requestAnimationFrame(callback: XRFrameRequestCallback): number;
+    cancelAnimationFrame(handle: number): void;
+
+    end(): Promise<void>;
+
+    // Events
+    onend: EventHandler;
+    oninputsourceschange: EventHandler;
+    onselect: EventHandler;
+    onselectstart: EventHandler;
+    onselectend: EventHandler;
+    onsqueeze: EventHandler;
+    onsqueezestart: EventHandler;
+    onsqueezeend: EventHandler;
+    onvisibilitychange: EventHandler;
+  }
+
+  // ## System
+
+  export interface XRSystem extends EventTarget {
+    isSessionSupported(mode: XRSessionMode): Promise<boolean>;
+    requestSession(mode: XRSessionMode, options?: XRSessionInit): Promise<XRSession>;
+    ondevicechange: EventHandler;
+    addEventListener(type: 'devicechange', listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+  }
+
+  // ## Updates to existing objects
   interface Navigator {
     /**
      * Optional because WebXR support is limited across browsers
