@@ -42,8 +42,8 @@ export type XRTargetRayMode =
 export type XRWebGLRenderingContext = WebGLRenderingContext | WebGL2RenderingContext;
 
 export interface XRSessionInit {
-  requiredFeatures?: XRReferenceSpaceType[];
-  optionalFeatures?: XRReferenceSpaceType[];
+  requiredFeatures?: XRReferenceSpaceType[]; // sequence<any> (TODO?)
+  optionalFeatures?: XRReferenceSpaceType[]; // sequence<any> (TODO?)
 }
 
 declare global {
@@ -76,13 +76,13 @@ export interface XRInputSourceEventInit extends EventInit {
 
 export interface XRInputSourcesChangeEventInit extends EventInit {
   session: XRSession;
-  added: XRInputSource[]; // FrozenArray (TODO)
-  removed: XRInputSource[]; // FrozenArray (TODO)
+  added: XRInputSource[]; // FrozenArray (TODO?)
+  removed: XRInputSource[]; // FrozenArray (TODO?)
 }
 
 export interface XRReferenceSpaceEventInit extends EventInit {
   referenceSpace: XRReferenceSpace;
-  transform: XRRigidTransform | null;
+  transform?: XRRigidTransform | null;
 }
 
 declare global {
@@ -99,8 +99,8 @@ declare global {
   export class XRInputSourcesChangeEvent extends Event {
     constructor(type: DOMString, eventInitDict: XRInputSourcesChangeEventInit);
     readonly session: XRSession;
-    readonly added: XRInputSource[]; // FrozenArray (TODO)
-    readonly removed: XRInputSource[]; // FrozenArray (TODO)
+    readonly added: XRInputSource[]; // FrozenArray (TODO?)
+    readonly removed: XRInputSource[]; // FrozenArray (TODO?)
   }
 
   export class XRReferenceSpaceEvent extends Event {
@@ -113,13 +113,13 @@ declare global {
 // ## Permissions
 
 export interface XRPermissionDescriptor extends PermissionDescriptor {
-  mode: XRSessionMode;
-  requiredFeatures: XRReferenceSpaceType[];
-  optionalFeatures: XRReferenceSpaceType[];
+  mode?: XRSessionMode;
+  requiredFeatures?: XRReferenceSpaceType[]; // sequence<any> (TODO?)
+  optionalFeatures?: XRReferenceSpaceType[]; // sequence<any> (TODO?)
 }
 
 export interface XRPermissionStatus extends PermissionStatus {
-  granted: any[]; // FrozenArray (TODO) ; (TODO) Also is this really `any`?
+  granted: any[]; // FrozenArray (TODO?) ; (TODO) Also is this really `any`?
 }
 
 // ## Input sources
@@ -129,7 +129,7 @@ export interface XRInputSource {
   readonly targetRayMode: XRTargetRayMode;
   readonly targetRaySpace: XRSpace;
   readonly gripSpace: XRSpace | null;
-  readonly profiles: DOMString[]; // FrozenArray in the doc (TODO)
+  readonly profiles: DOMString[]; // FrozenArray in the doc (TODO?)
 }
 
 // This is actually a novel data structure which emulates a JS array (e.g. getter + `.length`)
@@ -154,7 +154,7 @@ export interface XRReferenceSpace extends XRSpace {
 }
 
 export interface XRBoundedReferenceSpace extends XRReferenceSpace {
-  readonly boundsGeometry: DOMPointReadOnly[]; // FrozenArray (TODO)
+  readonly boundsGeometry: DOMPointReadOnly[]; // FrozenArray (TODO?)
 }
 
 // ## Poses
@@ -165,7 +165,7 @@ export interface XRPose {
 }
 
 export interface XRViewerPose extends XRPose {
-  readonly views: XRView[]; // FrozenArray in the docs (TODO)
+  readonly views: XRView[]; // FrozenArray in the docs (TODO?)
 }
 
 // ## Frames
@@ -181,12 +181,12 @@ export type XRFrameRequestCallback = (time: DOMHighResTimeStamp, frame: XRFrame)
 // ## WebGL interop
 
 export interface XRWebGLLayerInit {
-  antialias: boolean;
-  depth: boolean;
-  stencil: boolean;
-  alpha: boolean;
-  ignoreDepthValues: boolean;
-  framebufferScaleFactor: number;
+  antialias?: boolean;
+  depth?: boolean;
+  stencil?: boolean;
+  alpha?: boolean;
+  ignoreDepthValues?: boolean;
+  framebufferScaleFactor?: number;
 }
 
 declare global {
@@ -206,10 +206,10 @@ declare global {
 // ## Session
 
 export interface XRRenderStateInit {
-  depthNear: number;
-  depthFar: number;
-  inlineVerticalFieldOfView: number;
-  baseLayer: XRWebGLLayer | null;
+  depthNear?: number;
+  depthFar?: number;
+  inlineVerticalFieldOfView?: number;
+  baseLayer?: XRWebGLLayer | null;
 }
 
 export interface XRRenderState {
@@ -253,7 +253,6 @@ export interface XRSystem extends EventTarget {
   requestSession(mode: XRSessionMode, options?: XRSessionInit): Promise<XRSession>;
   ondevicechange: EventHandler;
   addEventListener(type: 'devicechange', listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-  // TODO 'devicechange' event
 }
 
 // ## Updates to existing objects
